@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import Container from "../../components/layout/Container";
+import Container from "../layout/Container";
 
 const MissionCard = ({ number, title, description, gradient }) => {
   return (

@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import Container from "../../components/layout/Container";
+import Container from "../layout/Container";
 
 const BUTTON_SIZE =
   "w-[100px] h-[100px] sm:w-[110px] sm:h-[110px] lg:w-[120px] lg:h-[120px]";

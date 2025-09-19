@@ -1,7 +1,7 @@
 import Container from "@/components/layout/Container";
-import PageBanner from "@/components/Pagebanner/PageBanner";
-import FaqSection from "@/components/Faqsection/FaqSection";
-import FaqCategories from "@/components/Faqsection/FaqCategories";
+import PageBanner from "@/components/PageBanner/PageBanner";
+import FaqSection from "@/components/FaqSection/FaqSection";
+import FaqCategories from "@/components/FaqSection/FaqCategories";
 
 export default function FaqPage() {
   return (

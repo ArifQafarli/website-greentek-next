@@ -1,5 +1,5 @@
 import Container from "@/components/layout/Container";
-import PageBanner from "@/components/Pagebanner/PageBanner";
+import PageBanner from "@/components/PageBanner/PageBanner";
 
 export default function AboutPage() {
   return (

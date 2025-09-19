@@ -1,7 +1,7 @@
 "use client";
 
 import Container from "@/components/layout/Container";
-import PageBanner from "@/components/Pagebanner/PageBanner";
+import PageBanner from "@/components/PageBanner/PageBanner";
 import { useRef, useState } from "react";
 
 const sections = [

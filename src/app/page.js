@@ -2,13 +2,13 @@ import HeroSection from "@/components/HeroSection/HeroSection";
 import Converter from "@/components/Converter/ConverterUi";
 import TransferOption from "@/components/TransferOption/TransferOptions";
 import PaymentCountry from "@/components/PaymentCountry/PaymentCountry";
-import GlobalServices from "@/components/Globalservices/GlobalServices";
-import OurMission from "@/components/Ourmission/OurMission";
-import DigitalWalletCard from "@/components/Digitalwallet/DigitalWalletCard";
-import QrDownloadBanner from "@/components/Qrdownload/QrDownloadBanner";
-import GreenChat from "@/components/Greenchat/GreenChat";
-import FaqSection from "@/components/Faqsection/FaqSection";
-import ContactSection from "@/components/Contactsection/ContactSection";
+import GlobalServices from "@/components/GlobalServices/GlobalServices";
+import OurMission from "@/components/OurMission/OurMission";
+import DigitalWalletCard from "@/components/DigitalWallet/DigitalWalletCard";
+import QrDownloadBanner from "@/components/QrDownload/QrDownloadBanner";
+import GreenChat from "@/components/GreenChat/GreenChat";
+import FaqSection from "@/components/FaqSection/FaqSection";
+import ContactSection from "@/components/ContactSection/ContactSection";
 
 export default function Home() {
   return (

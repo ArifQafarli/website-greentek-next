@@ -1,6 +1,6 @@
 "use client";
 
-import Container from "../../components/layout/Container";
+import Container from "../layout/Container";
 import {
   Facebook,
   Instagram,
