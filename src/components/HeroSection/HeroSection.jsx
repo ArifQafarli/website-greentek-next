@@ -34,7 +34,7 @@ const HeroSection = () => {
           {/* QR Code Box */}
           <div className="flex items-center gap-4 border border-dashed border-gray-400 rounded-xl p-6 max-w-full sm:max-w-md w-full mt-4">
             <Image
-              src="/assets/HeroImage/QrCode.png"
+              src="/assets/HeroImage/qrcode.png"
               alt="QR Code"
               width={64}
               height={64}
@@ -61,10 +61,10 @@ const HeroSection = () => {
         {/* Right Side */}
         <div className="w-full lg:w-1/2 bg-[#00282B] flex justify-center items-center relative rounded-3xl overflow-hidden min-h-[400px] lg:min-h-[600px]">
           <Image
-            src="/assets/HeroImage/Globe.png"
+            src="/assets/HeroImage/globe.png"
             alt="Globe"
             width={900}
-            height={900}
+            height={900} 
             className="object-contain z-0 max-w-full h-auto"
           />
 
