@@ -1,23 +1,9 @@
-// import React from "react";
-// import Header from "../Header";
-// import Footer from "../Footer";
-
-// const Layout = ({ children }) => {
-//   return (
-//     <div className="bg-[#f7f7f7] min-h-screen w-full">
-//       <Header />
-//       <main>{children}</main>
-//       <Footer />
-//     </div>
-//   );
-// };
-
-// export default Layout;
 
 import "./globals.css";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { LanguageProvider } from "@/context/LanguageContext";
+import { cookies } from "next/headers";
 
 export const metadata = {
   title: "Greentekpay",
@@ -25,10 +11,13 @@ export const metadata = {
 };
 
 export default function RootLayout({ children }) {
+  const langCookie = cookies().get("lang");
+  const lang = langCookie ? langCookie.value : "az"; // SSR-də cookie oxunur
+
   return (
-    <html lang="en">
+    <html lang={lang}>
       <body>
-        <LanguageProvider>
+        <LanguageProvider initialLang={lang}>
           <Header />
           {children}
           <Footer />

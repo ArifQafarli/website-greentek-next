@@ -12,6 +12,7 @@ import { getCookie, setCookie } from "cookies-next";
 const Header = () => {
   const [menuOpen, setMenuOpen] = useState(false);
   const [langOpen, setLangOpen] = useState(false);
+  const [mounted, setMounted] = useState(false); // 👈 Hydration fix
 
   const { language, setLanguage } = useLanguage();
   const { t } = useTranslation(language);
@@ -24,6 +25,9 @@ const Header = () => {
 
   const pathname = usePathname();
 
+  useEffect(() => {
+    setMounted(true); // 👈 SSR ilə fərqi aradan qaldırır
+  }, []);
 
   useEffect(() => {
     const savedLang = getCookie("lang");
@@ -31,7 +35,6 @@ const Header = () => {
       setLanguage(savedLang);
     }
   }, []);
-
 
   const handleLangChange = (lang) => {
     setLanguage(lang);
@@ -60,6 +63,10 @@ const Header = () => {
     document.addEventListener("pointerdown", onClickOutside);
     return () => document.removeEventListener("pointerdown", onClickOutside);
   }, []);
+
+  if (!mounted) {
+    return <header />;
+  }
 
   return (
     <header
@@ -121,7 +128,11 @@ const Header = () => {
                   strokeWidth="2"
                   viewBox="0 0 24 24"
                 >
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M19 9l-7 7-7-7"
+                  />
                 </svg>
               </button>
 
@@ -147,7 +158,9 @@ const Header = () => {
               onClick={() => setMenuOpen((v) => !v)}
               aria-expanded={menuOpen}
               aria-controls="mobile-menu"
-              className={`${isBannerPage ? "" : "text-[#0f5156]"} focus:outline-none`}
+              className={`${
+                isBannerPage ? "" : "text-[#0f5156]"
+              } focus:outline-none`}
             >
               <svg
                 className="w-6 h-6"
@@ -157,9 +170,17 @@ const Header = () => {
                 viewBox="0 0 24 24"
               >
                 {menuOpen ? (
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M6 18L18 6M6 6l12 12"
+                  />
                 ) : (
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h16M4 18h16" />
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M4 6h16M4 12h16M4 18h16"
+                  />
                 )}
               </svg>
             </button>
@@ -208,7 +229,11 @@ const Header = () => {
                       strokeWidth="2"
                       viewBox="0 0 24 24"
                     >
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M19 9l-7 7-7-7"
+                      />
                     </svg>
                   </button>
 
