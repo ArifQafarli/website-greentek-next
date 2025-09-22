@@ -17,7 +17,12 @@ export default function FaqSection({
   const { t } = useTranslation(language);
 
   // faq_items array kimi qaytarsın deyə returnObjects: true istifadə edirik
-  const items = t("faq_items", { returnObjects: true }) || [];
+  const raw = t("faq_items", { returnObjects: true });
+  const items = Array.isArray(raw)
+    ? raw
+    : raw && typeof raw === "object"
+    ? Object.values(raw)
+    : [];
 
   return (
     <div className="px-6 md:px-10 lg:px-12">
