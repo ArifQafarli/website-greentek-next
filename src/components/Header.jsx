@@ -98,9 +98,9 @@ const Header = () => {
                 `}
               >
                 <Link href="/about">Haqqında</Link>
-                <Link href="/services">Xidmətlər</Link>
-                <Link href="/vacancies">Vakansiyalar</Link>
-                <Link href="/ecosystem">Ekosistem</Link>
+                <Link href="#">Xidmətlər</Link>
+                <Link href="#">Vakansiyalar</Link>
+                <Link href="#">Ekosistem</Link>
               </nav>
             </div>
 
@@ -206,13 +206,13 @@ const Header = () => {
                 <Link href="/about" onClick={() => setMenuOpen(false)}>
                   Haqqında
                 </Link>
-                <Link href="/services" onClick={() => setMenuOpen(false)}>
+                <Link href="#" onClick={() => setMenuOpen(false)}>
                   Xidmətlər
                 </Link>
-                <Link href="/vacancies" onClick={() => setMenuOpen(false)}>
+                <Link href="#" onClick={() => setMenuOpen(false)}>
                   Vakansiyalar
                 </Link>
-                <Link href="/ecosystem" onClick={() => setMenuOpen(false)}>
+                <Link href="#" onClick={() => setMenuOpen(false)}>
                   Ekosistem
                 </Link>
 
