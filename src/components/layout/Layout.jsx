@@ -12,7 +12,7 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   const langCookie = cookies().get("lang");
-  const lang = langCookie ? langCookie.value : "az"; // SSR-də cookie oxunur
+  const lang = langCookie ? langCookie.value : "AZ"; 
 
   return (
     <html lang={lang}>

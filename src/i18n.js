@@ -5,7 +5,7 @@ export const initI18next = async (lng, ns) => {
     .use(resourcesToBackend((lng, ns) => import(`../public/locales/${lng}/${ns}.json`))) 
     .init({
       lng,                  // aktiv dil (məsələn "az" və ya "en")
-      fallbackLng: 'az',    // tərcümə tapılmasa default olaraq az istifadə ediləcək
+      fallbackLng: 'AZ',    // tərcümə tapılmasa default olaraq az istifadə ediləcək
       supportedLngs: languages, // icazə verilən dillər (config-dən gəlir)
       ns,                   // namespace (məsələn "common")
       defaultNS: 'common',  // default namespace

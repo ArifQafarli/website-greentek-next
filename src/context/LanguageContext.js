@@ -32,7 +32,7 @@ import { getCookie, setCookie } from "cookies-next";
 const LanguageContext = createContext();
 
 export function LanguageProvider({ children, initialLang }) {
-  const [language, setLanguage] = useState(initialLang || "az");
+  const [language, setLanguage] = useState(initialLang || "AZ");
 
   // Client mount olanda cookie ilə sync et
   useEffect(() => {
