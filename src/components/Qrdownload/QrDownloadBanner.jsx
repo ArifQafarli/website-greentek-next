@@ -8,7 +8,7 @@ const BUTTON_SIZE =
 const IMAGE_SIZE = 40;
 
 const storeButtons = [
-  { src: "/assets/HeroImage/Playstore.png", alt: "Google Play" },
+  { src: "/assets/HeroImage/PlayStore.png", alt: "Google Play" },
   { src: "/assets/HeroImage/Apple.png", alt: "Apple Store" },
   { src: "/assets/HeroImage/Huawei.png", alt: "Huawei AppGallery" },
   {

@@ -34,7 +34,7 @@ const HeroSection = () => {
           {/* QR Code Box */}
           <div className="flex items-center gap-4 border border-dashed border-gray-400 rounded-xl p-6 max-w-full sm:max-w-md w-full mt-4">
             <Image
-              src="/assets/HeroImage/qrcode.png"
+              src="/assets/HeroImage/QrCode.png"
               alt="QR Code"
               width={64}
               height={64}
