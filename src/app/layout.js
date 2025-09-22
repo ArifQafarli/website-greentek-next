@@ -1,6 +1,7 @@
 import "./globals.css";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import ClientProviders from "@/providers/ClientProviders"; 
 
 export const metadata = {
   title: "Greentekpay",
@@ -11,9 +12,11 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body>
-        <Header />
-        {children}
-        <Footer />
+        <ClientProviders>
+          <Header />
+          {children}
+          <Footer />
+        </ClientProviders>
       </body>
     </html>
   );

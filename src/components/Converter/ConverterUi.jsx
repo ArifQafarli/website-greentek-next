@@ -3,6 +3,8 @@
 import React, { useMemo, useState, useEffect, useRef } from "react";
 import { FiRefreshCw } from "react-icons/fi";
 import { useFormatAmount } from "../../utils/formatAmount";
+import { useLanguage } from "@/context/LanguageContext";
+import { useTranslation } from "@/lib/useTranslation";
 
 const currencies = [
   { code: "USD", flag: "🇺🇸", name: "US Dollar" },
@@ -97,6 +99,9 @@ export default function ConverterUi() {
   const [from, setFrom] = useState("USD");
   const [to, setTo] = useState("AZE");
 
+  const { language } = useLanguage();
+  const { t } = useTranslation(language);
+
   const formatAmount = useFormatAmount();
 
   const result = useMemo(() => {
@@ -113,9 +118,10 @@ export default function ConverterUi() {
 
   return (
     <div className="bg-white p-6 rounded-2xl shadow-md max-w-2xl mx-auto mt-10">
-      <h1 className="text-2xl font-semibold text-center mb-6">
-        Rahat Məzənnələr və <span className="italic">Konvertasiya</span>!
-      </h1>
+      <h1
+        className="text-2xl font-semibold text-center mb-6"
+        dangerouslySetInnerHTML={{ __html: t("converter_title") }}
+      />
 
       <div className="grid grid-cols-1 sm:grid-cols-12 gap-4 mb-4">
         <div className="border border-gray-300 rounded-xl px-4 py-3 flex items-center justify-between gap-3 sm:col-span-5">
@@ -123,14 +129,13 @@ export default function ConverterUi() {
             value={amount}
             onChange={(e) => {
               const val = e.target.value;
-
               if (/^[0-9]*[.,]?[0-9]*$/.test(val) || val === "") {
                 setAmount(val);
               }
             }}
             inputMode="decimal"
-            placeholder="Məbləğ"
-            aria-label="Məbləğ"
+            placeholder={t("converter_amount")}
+            aria-label={t("converter_amount")}
             className="outline-none w-1/2 text-lg font-medium"
           />
           <CurrencySelect
@@ -143,8 +148,8 @@ export default function ConverterUi() {
           <button
             type="button"
             onClick={swap}
-            aria-label="Valyutaları dəyiş"
-            title="Dəyiş (swap)"
+            aria-label={t("converter_swap")}
+            title={t("converter_swap_title")}
             className="p-2 rounded-full hover:bg-gray-100 transition w-12 h-12 flex items-center justify-center"
           >
             <FiRefreshCw className="w-6 h-6 text-gray-600" />
@@ -161,6 +166,7 @@ export default function ConverterUi() {
           <CurrencySelect value={to} onChange={(e) => setTo(e.target.value)} />
         </div>
       </div>
+
       <table className="w-full text-center table-fixed">
         <colgroup>
           <col style={{ width: "40%" }} />
@@ -169,9 +175,15 @@ export default function ConverterUi() {
         </colgroup>
         <thead className="border-y border-gray-200">
           <tr>
-            <th className="py-4 text-xl font-medium text-gray-600">Valyuta</th>
-            <th className="py-4 text-xl font-medium text-gray-600">Alış</th>
-            <th className="py-4 text-xl font-medium text-gray-600">Satış</th>
+            <th className="py-4 text-xl font-medium text-gray-600">
+              {t("converter_currency")}
+            </th>
+            <th className="py-4 text-xl font-medium text-gray-600">
+              {t("converter_buy")}
+            </th>
+            <th className="py-4 text-xl font-medium text-gray-600">
+              {t("converter_sell")}
+            </th>
           </tr>
         </thead>
 

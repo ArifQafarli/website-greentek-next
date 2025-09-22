@@ -15,7 +15,7 @@ const company = {
 
 const menu = {
   about: [
-    { href: "#about", label: "Haqqımızda" },
+    { href: "/about", label: "Haqqımızda" },
     { href: "#services", label: "Xidmətlər" },
     { href: "#vacancies", label: "Vakansiyalar" },
     { href: "#ecosystem", label: "Ekosistem" },

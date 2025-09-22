@@ -1,6 +1,8 @@
-
+"use client";
 
 import Image from "next/image";
+import { useLanguage } from "@/context/LanguageContext";
+import { useTranslation } from "@/lib/useTranslation";
 
 const countryGroups = [
   {
@@ -33,6 +35,9 @@ function CountryBadge({ flag, name }) {
 }
 
 export default function PaymentCountry() {
+  const { language } = useLanguage();
+  const { t } = useTranslation(language);
+
   return (
     <section className="relative flex flex-col md:flex-row items-start justify-start w-full py-20">
       {/* Solda globe */}
@@ -75,10 +80,10 @@ export default function PaymentCountry() {
 
       {/* Sağda yazı */}
       <div className="flex-1 mt-10 md:mt-0 ml-auto md:self-center md:translate-x-16 lg:translate-x-24 xl:translate-x-42">
-        <h2 className="font-poppins font-normal text-[50px] leading-[1.43]  tracking-wider text-gray-900 max-w-[520px]">
-          Connectivity to local payment rails and currencies across{" "}
+        <h2 className="font-poppins font-normal text-[50px] leading-[1.43] tracking-wider text-gray-900 max-w-[520px]">
+          {t("payment_title")}
           <span className="text-[#04EA8B] font-semibold block whitespace-nowrap tracking-wide">
-            180+ countries
+            {t("payment_subtitle")}
           </span>
         </h2>
       </div>

@@ -2,6 +2,8 @@
 
 import Image from "next/image";
 import Container from "../layout/Container";
+import { useLanguage } from "@/context/LanguageContext";
+import { useTranslation } from "@/lib/useTranslation";
 
 const BUTTON_SIZE =
   "w-[100px] h-[100px] sm:w-[110px] sm:h-[110px] lg:w-[120px] lg:h-[120px]";
@@ -20,6 +22,9 @@ const storeButtons = [
 ];
 
 export default function QrDownloadBanner() {
+  const { language } = useLanguage();
+  const { t } = useTranslation(language);
+
   const handleScroll = () => {
     const section = document.getElementById("qrdownload");
     if (section) section.scrollIntoView({ behavior: "smooth", block: "start" });
@@ -33,10 +38,10 @@ export default function QrDownloadBanner() {
           className="flex flex-col lg:flex-row w-full bg-white rounded-t-2xl shadow p-6 sm:p-10 lg:p-16 gap-6"
         >
           <div className="flex flex-col flex-1 lg:ml-8">
-            <p className="text-2xl sm:text-3xl md:text-4xl lg:text-[55px] font-normal text-black leading-snug lg:leading-tight">
-              QR kodu <span className="font-semibold">skan edin</span> və <br />
-              tətbiqi platformalardan <br /> yükləyin!
-            </p>
+            <p
+              className="text-2xl sm:text-3xl md:text-4xl lg:text-[55px] font-normal text-black leading-snug lg:leading-tight"
+              dangerouslySetInnerHTML={{ __html: t("qr_title") }}
+            />
           </div>
 
           <div className="flex justify-center lg:justify-end items-center flex-1 lg:mr-8">
@@ -49,6 +54,7 @@ export default function QrDownloadBanner() {
             />
           </div>
         </div>
+
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:flex items-center justify-center gap-4 sm:gap-6 mt-6 sm:mt-8">
           {storeButtons.map(({ src, alt, className = "" }, i) => (
             <button
@@ -62,7 +68,7 @@ export default function QrDownloadBanner() {
                 hover:bg-[#033136] hover:-rotate-6 hover:scale-105 
                 ${className}
               `}
-              aria-label={`${alt} ile indirme seçeneklerine git`}
+              aria-label={`${alt} download options`}
             >
               <Image
                 src={src}

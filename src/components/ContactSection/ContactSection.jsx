@@ -14,19 +14,8 @@ import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import toast, { Toaster } from "react-hot-toast";
 
-const ContactSchema = Yup.object().shape({
-  firstName: Yup.string().required("Ad tələb olunur*"),
-  lastName: Yup.string().required("Soyad tələb olunur"),
-  email: Yup.string()
-    .email("Düzgün email daxil edin")
-    .required("Email tələb olunur*"),
-  phone: Yup.string()
-    .matches(/^[0-9+\s()-]*$/, "Yalnız rəqəm daxil edin")
-    .required("Telefon tələb olunur*"),
-  message: Yup.string()
-    .min(10, "Mesaj ən azı 10 simvol olmalıdır")
-    .required("Mesaj tələb olunur*"),
-});
+import { useLanguage } from "@/context/LanguageContext";
+import { useTranslation } from "@/lib/useTranslation";
 
 const ReusableInput = ({ name, type = "text", placeholder }) => (
   <div className="relative mb-8">
@@ -62,13 +51,30 @@ const ReusableTextarea = ({ name, placeholder, rows = 4 }) => (
 );
 
 export default function ContactSection() {
+  const { language } = useLanguage();
+  const { t } = useTranslation(language);
+
+  const ContactSchema = Yup.object().shape({
+    firstName: Yup.string().required(t("contact_firstname_required")),
+    lastName: Yup.string().required(t("contact_lastname_required")),
+    email: Yup.string()
+      .email(t("contact_email_invalid"))
+      .required(t("contact_email_required")),
+    phone: Yup.string()
+      .matches(/^[0-9+\s()-]*$/, t("contact_phone_invalid"))
+      .required(t("contact_phone_required")),
+    message: Yup.string()
+      .min(10, t("contact_message_min"))
+      .required(t("contact_message_required")),
+  });
+
   const handleSubmit = async (values, { resetForm }) => {
     try {
       console.log("Form Values:", values);
-      toast.success("Mesajınız uğurla göndərildi ✅");
+      toast.success(t("contact_success"));
       resetForm();
     } catch (error) {
-      toast.error("Xəta baş verdi ❌");
+      toast.error(t("contact_error"));
     }
   };
 
@@ -88,15 +94,17 @@ export default function ContactSection() {
             }}
           >
             <h2 className="text-3xl lg:text-5xl text-black leading-relaxed pl-12">
-              Biznesinizi <span className="font-semibold">Ekoloji</span> Ödəniş{" "}
-              <br />
-              Həlləri İlə Gələcəyə <br /> Daşıyaq!
+              {t("contact_title")}{" "}
+              <span className="font-semibold">{t("contact_highlight")}</span>{" "}
+              {t("contact_title_rest")}
             </h2>
           </div>
 
           {/* Əlaqə məlumatları */}
           <div className="bg-white p-12 rounded-4xl ">
-            <p className="text-[#747B81] text-sm uppercase">Phone</p>
+            <p className="text-[#747B81] text-sm uppercase">
+              {t("contact_phone")}
+            </p>
             <a
               href="tel:+994125970747"
               className="text-lg font-medium mb-4 block hover:text-black transition"
@@ -104,7 +112,9 @@ export default function ContactSection() {
               +994 12 597 07 47
             </a>
 
-            <p className="text-gray-600 text-sm uppercase">Email</p>
+            <p className="text-gray-600 text-sm uppercase">
+              {t("contact_email")}
+            </p>
             <a
               href="mailto:greentekpay@gmail.com"
               className="text-lg font-medium mb-6 block hover:text-black transition"
@@ -149,19 +159,34 @@ export default function ContactSection() {
           >
             {({ isSubmitting }) => (
               <Form className="flex flex-col flex-1">
-                <ReusableInput name="firstName" placeholder="Ad" />
-                <ReusableInput name="lastName" placeholder="Soyad" />
-                <ReusableInput name="email" type="email" placeholder="Email" />
-                <ReusableInput name="phone" placeholder="Telefon nömrəsi" />
-                <ReusableTextarea name="message" placeholder="Mesaj" />
-
+                <ReusableInput
+                  name="firstName"
+                  placeholder={t("contact_firstname")}
+                />
+                <ReusableInput
+                  name="lastName"
+                  placeholder={t("contact_lastname")}
+                />
+                <ReusableInput
+                  name="email"
+                  type="email"
+                  placeholder={t("contact_email_placeholder")}
+                />
+                <ReusableInput
+                  name="phone"
+                  placeholder={t("contact_phone_placeholder")}
+                />
+                <ReusableTextarea
+                  name="message"
+                  placeholder={t("contact_message")}
+                />
 
                 <button
                   type="submit"
                   disabled={isSubmitting}
                   className="mt-auto w-full bg-[#0F5156] text-white py-4 rounded-full font-semibold disabled:opacity-70"
                 >
-                  {isSubmitting ? "Göndərilir..." : "Göndər"}
+                  {isSubmitting ? t("contact_submitting") : t("contact_submit")}
                 </button>
               </Form>
             )}

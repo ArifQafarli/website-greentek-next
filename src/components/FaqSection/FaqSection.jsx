@@ -3,52 +3,52 @@
 import { useId, useState, memo } from "react";
 import { Plus, Minus, ArrowRight } from "lucide-react";
 
+import { useLanguage } from "@/context/LanguageContext";
+import { useTranslation } from "@/lib/useTranslation";
+
 export default function FaqSection({
-  title = "Frequently asked",
-  highlighted = "questions",
-  cta = { label: "See More", href: "#" },
-  items = DEFAULT_ITEMS.slice(0, 5),
   defaultOpenIndex = -1,
   heightPx = 480,
   showLeft = true,
 }) {
   const uid = useId();
   const [open, setOpen] = useState(defaultOpenIndex);
+  const { language } = useLanguage();
+  const { t } = useTranslation(language);
+
+  // faq_items array kimi qaytarsın deyə returnObjects: true istifadə edirik
+  const items = t("faq_items", { returnObjects: true }) || [];
 
   return (
     <div className="px-6 md:px-10 lg:px-12">
-      <div
-        className={`grid grid-cols-1 gap-8 lg:gap-10 items-start ${
-          showLeft ? "lg:grid-cols-12" : "lg:grid-cols-12"
-        }`}
-      >
+      <div className="grid grid-cols-1 gap-8 lg:gap-10 items-start lg:grid-cols-12">
         {showLeft && (
           <div
             className="lg:col-span-5 flex flex-col justify-between bg-white rounded-3xl px-6 py-6"
             style={{ height: heightPx }}
           >
             <h2 className="text-3xl leading-tight sm:text-4xl md:text-5xl font-medium">
-              {title}{" "}
+              {t("faq_title")}{" "}
               <span className="text-emerald-700 font-semibold">
-                {highlighted}
+                {t("faq_highlighted")}
               </span>
             </h2>
 
             <div className="flex items-center justify-between sm:max-w-[520px] mt-8">
               <div>
                 <p className="text-lg font-medium text-zinc-900">
-                  Still have questions?
+                  {t("faq_still")}
                 </p>
                 <p className="mt-1 text-base text-zinc-500">
-                  Contact our support team for assistance
+                  {t("faq_contact")}
                 </p>
               </div>
 
               <a
-                href={cta.href}
+                href="#"
                 className="group inline-flex items-center gap-2 rounded-full border border-emerald-300 px-5 py-3 text-emerald-900 shadow-sm transition hover:bg-emerald-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-300"
               >
-                <span className="text-base font-semibold">{cta.label}</span>
+                <span className="text-base font-semibold">{t("faq_cta")}</span>
                 <span className="rounded-full border border-emerald-300 p-1 transition group-hover:translate-x-0.5">
                   <ArrowRight className="h-4 w-4" />
                 </span>
@@ -57,7 +57,7 @@ export default function FaqSection({
           </div>
         )}
 
-        {/* ✅ Sağ taraf (accordion) her zaman görünür */}
+        {/* Sağ  (accordion) */}
         <div className={showLeft ? "lg:col-span-7" : "lg:col-span-12"}>
           <div
             className="flex flex-col gap-4 overflow-y-auto no-scrollbar"
@@ -138,31 +138,3 @@ const AccordionItem = memo(function AccordionItem({
     </div>
   );
 });
-
-/* ✅ Varsayılan soru–cevaplar */
-const DEFAULT_ITEMS = [
-  {
-    q: "Greenpay nədir?",
-    a: "Şirkətimiz pul köçürmələr və maliyyə əməliyyatları sahəsində rahat və müasir həllər təqdim edir...",
-  },
-  {
-    q: "Xidmətlər necə işləyir?",
-    a: "Lorem Ipsum is simply dummy text of the printing...",
-  },
-  {
-    q: "Ödənişlər təhlükəsizdirmi?",
-    a: "Lorem Ipsum is simply dummy text of the printing...",
-  },
-  {
-    q: "Dəstək necə əldə edə bilərəm?",
-    a: "Lorem Ipsum is simply dummy text of the printing...",
-  },
-  {
-    q: "Komissiyalar necədir?",
-    a: "Lorem Ipsum is simply dummy text of the printing...",
-  },
-  {
-    q: "Komissiyalar necədir?",
-    a: "Lorem Ipsum is simply dummy text of the printing...",
-  },
-];
