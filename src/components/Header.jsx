@@ -12,7 +12,7 @@ import { getCookie, setCookie } from "cookies-next";
 const Header = () => {
   const [menuOpen, setMenuOpen] = useState(false);
   const [langOpen, setLangOpen] = useState(false);
-  const [mounted, setMounted] = useState(false); // 👈 Hydration fix
+  const [mounted, setMounted] = useState(false);
 
   const { language, setLanguage } = useLanguage();
   const { t } = useTranslation(language);
@@ -26,7 +26,7 @@ const Header = () => {
   const pathname = usePathname();
 
   useEffect(() => {
-    setMounted(true); // 👈 SSR ilə fərqi aradan qaldırır
+    setMounted(true);
   }, []);
 
   useEffect(() => {

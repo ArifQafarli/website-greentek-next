@@ -16,7 +16,6 @@ export default function FaqSection({
   const { language } = useLanguage();
   const { t } = useTranslation(language);
 
-  // faq_items array kimi qaytarsın deyə returnObjects: true istifadə edirik
   const raw = t("faq_items", { returnObjects: true });
   const items = Array.isArray(raw)
     ? raw
