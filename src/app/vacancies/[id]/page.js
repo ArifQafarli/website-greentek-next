@@ -22,6 +22,7 @@ export default function VacancyDetailPage({ params }) {
       "2+ Years Of Experience In Software Development",
       "Proficiency In JavaScript, React, NodeJs",
     ],
+    
   };
 
   return (

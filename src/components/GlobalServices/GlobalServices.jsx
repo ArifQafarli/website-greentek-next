@@ -66,7 +66,7 @@ export default function GlobalServices() {
               {t("global_title")}
             </h2>
 
-            {/* ✅ HTML içinde <br /> parse edilsin */}
+
             <p
               className="mt-3 text-xl md:text-3xl lg:text-[42px] font-medium leading-snug text-gray-900"
               dangerouslySetInnerHTML={{ __html: t("global_subtitle") }}

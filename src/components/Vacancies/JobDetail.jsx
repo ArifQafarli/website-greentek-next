@@ -1,10 +1,9 @@
-import { Formik, Form } from "formik";
+import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import toast, { Toaster } from "react-hot-toast";
 import { useLanguage } from "@/context/LanguageContext";
 import { useTranslation } from "@/lib/useTranslation";
-import { Field, ErrorMessage } from "formik";
-import { useState } from "react";
+import { useState, useMemo, useEffect } from "react";
 
 const ReusableInput = ({ name, type = "text", placeholder }) => (
   <div className="relative mb-8">
@@ -44,21 +43,25 @@ export default function JobDetail({ job }) {
   const { t } = useTranslation(language);
   const [selectedFile, setSelectedFile] = useState(null);
 
-  const ApplicationSchema = Yup.object().shape({
-    firstName: Yup.string().required(t("contact_firstname_required")),
-    lastName: Yup.string().required(t("contact_lastname_required")),
-    email: Yup.string()
-      .email(t("contact_email_invalid"))
-      .required(t("contact_email_required")),
-    phone: Yup.string()
-      .matches(/^[0-9+\s()-]*$/, t("contact_phone_invalid"))
-      .required(t("contact_phone_required")),
-    message: Yup.string()
-      .min(10, t("contact_message_min"))
-      .required(t("contact_message_required")),
-  });
+  // Yup schema dinamik — t dəyişəndə yenilənəcək
+  const ApplicationSchema = useMemo(
+    () =>
+      Yup.object().shape({
+        firstName: Yup.string().required(t("contact_firstname_required")),
+        lastName: Yup.string().required(t("contact_lastname_required")),
+        email: Yup.string()
+          .email(t("contact_email_invalid"))
+          .required(t("contact_email_required")),
+        phone: Yup.string()
+          .matches(/^[0-9+\s()-]*$/, t("contact_phone_invalid"))
+          .required(t("contact_phone_required")),
+        message: Yup.string()
+          .min(10, t("contact_message_min"))
+          .required(t("contact_message_required")),
+      }),
+    [t]
+  );
 
-  // Dosya seçildiğinde çalışacak fonksiyon
   const handleFileChange = (event) => {
     const file = event.target.files[0];
     setSelectedFile(file);
@@ -79,6 +82,7 @@ export default function JobDetail({ job }) {
       console.log("Başvuru:", values);
       toast.success(t("contact_success"));
       resetForm();
+      setSelectedFile(null);
     } catch (error) {
       toast.error(t("contact_error"));
     }
@@ -127,64 +131,73 @@ export default function JobDetail({ job }) {
           validationSchema={ApplicationSchema}
           onSubmit={handleSubmit}
         >
-          {({ isSubmitting }) => (
-            <Form className="flex flex-col flex-1">
-              <ReusableInput
-                name="firstName"
-                placeholder={t("contact_firstname")}
-              />
-              <ReusableInput
-                name="lastName"
-                placeholder={t("contact_lastname")}
-              />
-              <ReusableInput
-                name="email"
-                type="email"
-                placeholder={t("contact_email_placeholder")}
-              />
-              <ReusableInput
-                name="phone"
-                placeholder={t("contact_phone_placeholder")}
-              />
-              <ReusableTextarea
-                name="message"
-                placeholder={t("contact_message")}
-              />
+          {({ isSubmitting, setErrors, setTouched }) => {
+            // Bu useEffect dil dəyişəndə görünən errorları və touched state-i təmizləyir.
+            // Beləcə "First name is required" ekranda yox olur, input dəyərləri qalır.
+            useEffect(() => {
+              // Clear visible errors and touched flags when language changes
+              setErrors({});
+              setTouched({});
+            }, [language, setErrors, setTouched]);
 
-              {/* CV Upload Section */}
-              <div className="mb-4">
-                <button
-                  type="button"
-                  onClick={() => document.getElementById("fileInput").click()}
-                  className="flex items-center gap-2 px-4 py-2 rounded-lg text-sm text-green-700 bg-green-100 hover:bg-green-200"
-                >
-                  📎 Add Resume
-                </button>
-                {/* Dosya input */}
-                <input
-                  type="file"
-                  id="fileInput"
-                  name="resume"
-                  accept=".pdf,.doc,.docx,.txt"
-                  onChange={handleFileChange}
-                  className="hidden"
+            return (
+              <Form className="flex flex-col flex-1">
+                <ReusableInput
+                  name="firstName"
+                  placeholder={t("contact_firstname")}
                 />
-                {selectedFile && (
-                  <div className="mt-2 text-sm text-gray-600">
-                    Seçilen dosya: {selectedFile.name}
-                  </div>
-                )}
-              </div>
+                <ReusableInput
+                  name="lastName"
+                  placeholder={t("contact_lastname")}
+                />
+                <ReusableInput
+                  name="email"
+                  type="email"
+                  placeholder={t("contact_email_placeholder")}
+                />
+                <ReusableInput
+                  name="phone"
+                  placeholder={t("contact_phone_placeholder")}
+                />
+                <ReusableTextarea
+                  name="message"
+                  placeholder={t("contact_message")}
+                />
 
-              <button
-                type="submit"
-                disabled={isSubmitting}
-                className="mt-auto w-full bg-[#0F5156] text-white py-4 rounded-full font-semibold disabled:opacity-70"
-              >
-                {isSubmitting ? t("contact_submitting") : t("contact_submit")}
-              </button>
-            </Form>
-          )}
+                {/* CV Upload Section */}
+                <div className="mb-4">
+                  <button
+                    type="button"
+                    onClick={() => document.getElementById("fileInput").click()}
+                    className="flex items-center gap-2 px-4 py-2 rounded-lg text-sm text-green-700 bg-green-100 hover:bg-green-200"
+                  >
+                    📎 Add Resume
+                  </button>
+                  <input
+                    type="file"
+                    id="fileInput"
+                    name="resume"
+                    accept=".pdf,.doc,.docx,.txt"
+                    onChange={handleFileChange}
+                    className="hidden"
+                  />
+                  {selectedFile && (
+                    <div className="mt-2 text-sm text-gray-600">
+                      Seçilen dosya: {selectedFile.name}
+                    </div>
+                  )}
+                </div>
+
+                <button
+                  type="submit"
+                  disabled={isSubmitting}
+                  className="mt-auto w-full bg-[#0F5156] text-white py-4 rounded-full font-semibold disabled:opacity-70"
+                >
+                  {isSubmitting ? t("contact_submitting") : t("contact_submit")}
+                </button>
+              </Form>
+            );
+          }}
         </Formik>
       </div>
     </div>

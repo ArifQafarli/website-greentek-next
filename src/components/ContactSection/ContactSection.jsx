@@ -1,5 +1,6 @@
 "use client";
 
+import { useMemo } from "react";
 import Container from "../layout/Container";
 import {
   Facebook,
@@ -13,7 +14,6 @@ import {
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import toast, { Toaster } from "react-hot-toast";
-
 import { useLanguage } from "@/context/LanguageContext";
 import { useTranslation } from "@/lib/useTranslation";
 
@@ -23,7 +23,7 @@ const ReusableInput = ({ name, type = "text", placeholder }) => (
       type={type}
       name={name}
       placeholder={placeholder}
-      className="w-full p-4 bg-gray-100 rounded-xl outline-none f0"
+      className="w-full p-4 bg-gray-100 rounded-xl outline-none"
     />
     <ErrorMessage
       name={name}
@@ -40,7 +40,7 @@ const ReusableTextarea = ({ name, placeholder, rows = 4 }) => (
       name={name}
       rows={rows}
       placeholder={placeholder}
-      className="w-full p-4 bg-gray-100 rounded-xl outline-none "
+      className="w-full p-4 bg-gray-100 rounded-xl outline-none"
     />
     <ErrorMessage
       name={name}
@@ -54,19 +54,24 @@ export default function ContactSection() {
   const { language } = useLanguage();
   const { t } = useTranslation(language);
 
-  const ContactSchema = Yup.object().shape({
-    firstName: Yup.string().required(t("contact_firstname_required")),
-    lastName: Yup.string().required(t("contact_lastname_required")),
-    email: Yup.string()
-      .email(t("contact_email_invalid"))
-      .required(t("contact_email_required")),
-    phone: Yup.string()
-      .matches(/^[0-9+\s()-]*$/, t("contact_phone_invalid"))
-      .required(t("contact_phone_required")),
-    message: Yup.string()
-      .min(10, t("contact_message_min"))
-      .required(t("contact_message_required")),
-  });
+ 
+  const ContactSchema = useMemo(
+    () =>
+      Yup.object().shape({
+        firstName: Yup.string().required(t("contact_firstname_required")),
+        lastName: Yup.string().required(t("contact_lastname_required")),
+        email: Yup.string()
+          .email(t("contact_email_invalid"))
+          .required(t("contact_email_required")),
+        phone: Yup.string()
+          .matches(/^[0-9+\s()-]*$/, t("contact_phone_invalid"))
+          .required(t("contact_phone_required")),
+        message: Yup.string()
+          .min(10, t("contact_message_min"))
+          .required(t("contact_message_required")),
+      }),
+    [language, t]
+  );
 
   const handleSubmit = async (values, { resetForm }) => {
     try {
@@ -100,7 +105,6 @@ export default function ContactSection() {
             </h2>
           </div>
 
-          {/* Əlaqə məlumatları */}
           <div className="bg-white p-12 rounded-4xl ">
             <p className="text-[#747B81] text-sm uppercase">
               {t("contact_phone")}
@@ -147,6 +151,7 @@ export default function ContactSection() {
         {/* 🔹 Sağ tərəf – Formik */}
         <div className="bg-white rounded-4xl p-8 shadow-md h-full flex flex-col">
           <Formik
+            key={language} // 🔑 DİL DƏYİŞƏNDƏ FORMİK TAM RESET
             initialValues={{
               firstName: "",
               lastName: "",
